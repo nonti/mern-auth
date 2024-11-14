@@ -4,6 +4,9 @@ import { Routes, Route } from 'react-router-dom';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
+import EmailVerification from './pages/EmailVerification';
+import { ToastContainer } from'react-toastify';
+import'react-toastify/dist/ReactToastify.css';
 const App = () => {
   return (
     <div className='min-h-screen bg-gradient-to-br from-gray-900 via-cyan-900 to-indigo-900 flex justify-center items-center relative overflow-hidden'>
@@ -14,7 +17,9 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} /> 
         <Route path="/signin" element={<Signin />} />
+        <Route path='/verify-email' element={<EmailVerification />} />
       </Routes>
+      <ToastContainer />
     </div>
   )
 }

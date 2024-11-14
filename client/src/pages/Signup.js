@@ -1,17 +1,27 @@
 import React, { useState} from 'react'
 import {motion } from 'framer-motion';
-import { User, Mail, Ellipsis} from 'lucide-react';
+import { User, Mail, Ellipsis, Loader} from 'lucide-react';
 import Input from '../components/Input';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PasswordStrengthMeter from '../components/PasswordStrengthMeter';
+import { useAuthStore } from '../store/authStore';
+// import {toast} from 'react-toastify';
 const Signup = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
-  const handleSignup = (e) => {
+  const { signup, error, isLoading } = useAuthStore();
+  const { navigate } = useNavigate();
+
+  const handleSignup = async (e) => {
     e.preventDefault();
     // Add your form submission logic here
+
+    try{
+      await signup(email, password ,name, role)
+      navigate('/verify-email');
+    }catch(err){}
   }
   return (
     <>
@@ -56,6 +66,7 @@ const Signup = () => {
           />
         </form>
 
+        {error && <p className='text-red-500 font-semibold mt-2'>toast.error({error})</p>}
         {/* Password strength meter*/}
       <PasswordStrengthMeter password={password} />
         <motion.button 
@@ -65,8 +76,9 @@ const Signup = () => {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           type='submit'
+          disabled={isLoading}
         >
-          Sign Up
+          {isLoading ? <Loader  className='animate-spin mx-auto'/>:'Sign Up'}
         </motion.button>
         </div>
         <div className='px-8 py-4 bg-gray-900 bg-opacity-50 flex justify-center'>

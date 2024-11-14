@@ -1,6 +1,7 @@
 import express from 'express';
 import connectDB from './db/db.js';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.routes.js';
 
@@ -13,6 +14,10 @@ dotenv.config();
 //Middlewares
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+}));
 const PORT = process.env.PORT || 4000;
 
 //DB connection
